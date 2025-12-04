@@ -1,0 +1,39 @@
+
+	<li>
+		<a href="cyclers_list.html"><i class="fa fa-dashboard"></i>租赁周期管理</a>
+	</li>
+	<li>
+		<a href="managers_list.html"><i class="fa fa-desktop"></i> 管理员管理</a>
+	</li>
+	<li>
+		<a href="orders_list.html"><i class="fa fa-bar-chart-o"></i> 订单管理</a>
+	</li>
+	<li>
+		<a href="channel_list.html"><i class="fa fa-qrcode"></i> 类目管理</a>
+	</li>
+	
+	<li>
+		<a href="lands_list.html"><i class="fa fa-table"></i> 土地管理</a>
+	</li>
+	<li>
+		<a href="services_list.html"><i class="fa fa-edit"></i> 服务管理 </a>
+	</li>
+	<li>
+		<a href="sliders_list.html"><i class="fa fa-sitemap"></i>滚动图管理</a>
+	</li>
+	
+	<script>
+	
+	    $("#main-menu li a").each(function () {
+	
+	            $this = $(this);
+	
+	            if (String(window.location).indexOf($this[0].href)>=0 ) {
+	
+	                $this.addClass("active-menu");  //active表示被选中效果的类名   
+	            }
+	
+	        });
+	
+	</script>
+	

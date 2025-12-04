@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.LandsMapper">
+
+    <!-- 插入土地信息 -->
+    <insert id="insertLands" parameterType="com.example.entity.Lands">
+        INSERT INTO lands (
+            uid,
+            channel_uid,
+            title,
+            intro,
+            img,
+            price,
+            location,
+            stock,
+            norms,
+            recommendhome,
+            details,
+            remark,
+            state,
+            createdtime,
+            updatedtime
+        ) VALUES (
+                     #{uid},
+                     #{channel_uid},
+                     #{title},
+                     #{intro},
+                     #{img},
+                     #{price},
+                     #{location},
+                     #{stock},
+                     #{norms},
+                     #{recommendhome},
+                     #{details},
+                     #{remark},
+                     #{state},
+                     #{createdtime},
+                     #{updatedtime}
+                 )
+    </insert>
+
+    <!-- 根据 uid 查询 -->
+    <select id="selectByUid" resultType="com.example.entity.Lands" parameterType="string">
+        SELECT
+            uid,
+            channel_uid,
+            title,
+            intro,
+            img,
+            price,
+            location,
+            stock,
+            norms,
+            recommendhome,
+            details,
+            remark,
+            state,
+            createdtime,
+            updatedtime
+        FROM lands
+        WHERE uid = #{uid}
+    </select>
+
+    <!-- 更新土地信息（根据 uid） -->
+    <update id="updateLands" parameterType="com.example.entity.Lands">
+        UPDATE lands
+        SET
+            channel_uid = #{channel_uid},
+            title = #{title},
+            intro = #{intro},
+            img = #{img},
+            price = #{price},
+            location = #{location},
+            stock = #{stock},
+            norms = #{norms},
+            recommendhome = #{recommendhome},
+            details = #{details},
+            remark = #{remark},
+            state = #{state},
+            updatedtime = #{updatedtime}
+        WHERE uid = #{uid}
+    </update>
+
+    <!-- 下架功能，先下架后才能删除   -->
+    <update id="deleteByUid" parameterType="String">
+        update lands set state = 0,updatedtime = now() where uid = #{uid}
+    </update>
+
+    <!-- 删除（物理删除）,下架状态才能删除 -->
+    <delete id="superDeleteByUid" parameterType="string">
+        DELETE FROM lands WHERE uid = #{uid} and state = 0
+    </delete>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.example.entity.Lands">
+        SELECT
+            uid,
+            channel_uid,
+            title,
+            intro,
+            img,
+            price,
+            location,
+            stock,
+            norms,
+            recommendhome,
+            details,
+            remark,
+            state,
+            createdtime,
+            updatedtime
+        FROM lands
+        ORDER BY createdtime DESC
+    </select>
+
+    <!-- 分页查询：按创建时间倒序，支持动态条件（此处为全查） -->
+    <select id="pageLands" resultType="com.example.entity.Lands">
+        SELECT
+            uid,
+            channel_uid,
+            title,
+            intro,
+            img,
+            price,
+            location,
+            stock,
+            norms,
+            recommendhome,
+            details,
+            remark,
+            state,
+            createdtime,
+            updatedtime
+        FROM lands
+        ORDER BY createdtime DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <!-- 统计总记录数（用于分页） -->
+    <select id="countLands" resultType="int">
+        SELECT COUNT(*) FROM lands
+    </select>
+
+    <!-- 基于用户输入的值查询 -->
+    <select id="selectByTitleSearchLands" parameterType="String" resultType="com.example.entity.Lands">
+        select * from lands where title like #{title}
+    </select>
+
+</mapper>

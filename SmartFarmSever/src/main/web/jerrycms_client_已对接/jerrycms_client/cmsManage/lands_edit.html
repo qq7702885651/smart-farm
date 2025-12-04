@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <!-- Bootstrap Styles-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link href="assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+   <!-- <link href='http://fonts.useso.com/css?family=Open+Sans' rel='stylesheet' type='text/css' /> --> 
+     <!-- jQuery Js -->
+     <script src="assets/js/jquery-1.10.2.js"></script>
+     <!-- Bootstrap Js -->
+     <script src="assets/js/bootstrap.min.js"></script>
+      
+     <!-- Metis Menu Js -->
+     <script src="assets/js/jquery.metisMenu.js"></script>
+	 <script src="assets/js/utils.js"></script>
+	 
+	 <!-- 编辑器 -->
+	 <script src="assets/kindeditor_4_1_6/kindeditor-all.js"></script>
+	 <script src="assets/kindeditor_4_1_6/lang/zh_CN.js"></script>
+	 <!-- 提示框样式和js -->
+	 <link rel="stylesheet" href="assets/css/modal.css">
+	 <script src="assets/js/modal.js"></script>
+	 <script src="assets/js/urlconfig.js"></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar" role="navigation" id="navhead">
+        </nav>
+        <!--/. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation" id="navleft" style="left:0px;">
+		<div id="sideNav" onclick="toggleLeft()"><i class="fa fa-caret-right"></i></div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+
+                </ul>
+
+            </div>
+
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper" style="margin-left:260px;">
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-header">
+                           <small>修改土地信息</small>
+                        </h1>
+                    </div>
+                </div>
+                <!-- /. ROW  -->
+                <div class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<input type="hidden" id="uid" name="uid">
+								<div class="form-group">
+									<label>名称</label>
+									<input class="form-control" id="title" placeholder="名称">
+								</div>
+								<div class="form-group">
+									<label>所属类目</label>
+									<select class="form-control" id="channel_uid">
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+										<option>5</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>简介</label>
+									<input class="form-control" id="intro" placeholder="简介">
+								</div>
+								<div class="form-group">
+									<label>价格（元）</label>
+									<input class="form-control" id="price" placeholder="价格">
+								</div>
+								<div class="form-group">
+									<label>地址</label>
+									<input class="form-control" id="location" placeholder="地址">
+								</div>
+								<div class="form-group">
+									<label>库存</label>
+									<input class="form-control" id="stock" placeholder="库存">
+								</div>
+								<div class="form-group">
+									<label>规格</label>
+									<input class="form-control" id="norms" placeholder="规格">
+								</div>
+								<div class="form-group">
+									<label>推荐首页</label>
+									<select class="form-control" id="recommendhome">
+										<option value="1">否</option>
+										<option value="2">是</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>详情</label>
+									 <textarea style="width:400px; height:200px;" id="content" name="content"></textarea>
+								</div>
+								<div class="form-group" style="height: 90px;">
+									<label style="display: block;">图片</label>
+									<img id="titleImage" width="60" height="60"  src="assets/img/upload-pic.png" style="cursor:pointer; margin:10px; display:blcok;" align="left"/>
+									<input type="hidden" name="titlePic" id="titlePic" value=""/>
+								</div>
+								<input type="hidden" id="state" name="state">
+								<div class="form-group">
+									<label>备注</label>
+									<input class="form-control" id="remark" placeholder="备注">
+								</div>
+								<div class="form-group">
+									<a href="javascript:;" id="subbtn" class="btn btn-success">提交</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                <!-- /. ROW  -->
+
+	   
+				
+				
+				
+			
+		
+				<footer id="pagefoot">
+				</footer>
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <!-- JS Scripts-->
+    <!--提示框-->
+    <div id="maskdiv" class="mask">
+    	<div id="tagdiv" class="tag">
+    		<div id="tagtitle">
+    			温馨提示
+    		</div>
+    		<div id="tagcont">
+    			
+    		</div>
+    		<div id="tagop">
+    			
+    		</div>
+    	</div>
+    </div>
+ <script>
+	 function getParam() {
+	 	var args = {};
+	 	var query = location.search.substring(1);
+	 	var pairs = query.split('&');
+	 	console.log(pairs)
+	 	for (var i = 0; i < pairs.length; i += 1) {
+	 		var pos = pairs[i].indexOf('=');
+	 		if (pos !== -1) {
+	 			var argName = pairs[i].substring(0, pos);
+	 			args[argName] = pairs[i].substring(pos + 1);
+	 		}
+	 	}
+	 	return args;
+	 }
+ </script>
+<script>
+	 $("#navhead").load('./head.html');
+	 $("#main-menu").load('./left.html');
+	 $("#pagefoot").load('./footer.html');
+	 //取得上一页面url中携带的参数
+	 
+	  var editor;
+	   var callBackPath = getLoPath()+'/jerrycms_client/cmsManage/assets/KindEditor_4_1_6/redirect.html';
+	         KindEditor.ready(function(K) {
+			 editor =  K.create('#content', {
+			 uploadJson : getRootPath()+'/manage/upload/uplaodIMG?callBackPath='+callBackPath,
+			 allowFileManager : false,
+			 showRemote : false,
+			 afterBlur:function(){this.sync();},
+			 afterUpload : function( url, data, name) {
+				
+				 editor.hideDialog();
+			 }
+			 });//end create
+			 
+			 K('#titleImage').click(function() {
+				editor.loadPlugin('image', function() {
+					editor.plugin.imageDialog({
+						imageUrl : K('#titlePic').val(),
+						showRemote : false,
+						clickFn : function(url, title, width, height, border, align) {
+							console.log(url);
+							$("#titlePic").val(url); 
+							
+							//K('#titlePic').val(url);
+							editor.hideDialog();
+							$("#titleImage").attr('src',url); 
+							document.getElementById("titleImage").src=url;
+						}
+					});//end imageDialog
+				});//end loadPlugin
+			});//end click
+			
+			
+		});//end redady
+</script>
+<script>
+	function loadData(suid)
+	{
+		$.ajax({
+			 url : getRootPath()+"/manage/lands/getLands",
+			 type : "post",
+			 dataType : "json",
+			 contentType: "application/x-www-form-urlencoded; charset=utf-8",
+			 data: {"uid":suid},
+			 success : function(data) {
+				console.log(data);
+				var channel_arr = data.allchannel;
+				var lands = data.lands;
+				
+				$("#uid").val(lands.uid);
+				$("#title").val(lands.title);
+				$("#intro").val(lands.intro);
+				$("#price").val(lands.price);
+				$("#location").val(lands.location);
+				$("#stock").val(lands.stock);
+				$("#norms").val(lands.norms);
+				$("#recommendhome").val("<option "+(lands.recommendhome == 1?"selected='selected'":"")+" value='1'>否</option><option "+(lands.recommendhome == 2?"selected='selected'":"")+" value='2'>是</option>");
+				$("#content").val(lands.details);
+				$("#titleImage").attr('src',lands.img); 
+				$("#titlePic").val(lands.img);
+				$("#state").val(lands.state);
+				$("#remark").val(lands.remark);
+				
+				if(null!=channel_arr&&channel_arr.length>0)
+				{
+					var htmlstr = "";
+					for(i=0;i<channel_arr.length;i++)
+					{
+						var item = channel_arr[i];
+						htmlstr = htmlstr + "<option value='"+item.uid+"' "+(item.uid == lands.channel_uid?"selected='selected'":"")+">"+item.title+"</option>";
+					}
+					$("#channel_uid").html(htmlstr);
+				}
+			 }
+		});
+	}
+</script>
+<script>
+	 //alert("hello");
+		var suid = getParam().uid;
+		loadData(suid);
+</script>
+<script>
+	$("#subbtn").click(function(){
+		var uid = $("#uid").val();
+		var title = $("#title").val();
+		var channel_uid = $("#channel_uid").val();
+		var intro = $("#intro").val();
+		var price = $("#price").val();
+		var location = $("#location").val();
+		var stock = $("#stock").val();
+		var norms = $("#norms").val();
+		var recommendhome = $("#recommendhome").val();
+		var details = $("#content").val();
+		var img = $("#titlePic").val();
+		var state = $("#state").val();
+		var remark = $("#remark").val();
+		
+		if(""==title)
+		{
+			$("#tagcont").html("名称不能为空");
+			$("#tagop").html("<a id='surebtn' href='javascript:;' onclick='hideModal()'>确定</a>");
+			showModal();
+			return;
+		}
+		if(""==channel_uid)
+		{
+			$("#tagcont").html("所属类目不能为空");
+			$("#tagop").html("<a id='surebtn' href='javascript:;' onclick='hideModal()'>确定</a>");
+			showModal();
+			return;
+		}
+		if(""==intro)
+		{
+			$("#tagcont").html("简介不能为空");
+			$("#tagop").html("<a id='surebtn' href='javascript:;' onclick='hideModal()'>确定</a>");
+			showModal();
+			return;
+		}
+		if(""==price)
+		{
+			$("#tagcont").html("价格不能为空");
+			$("#tagop").html("<a id='surebtn' href='javascript:;' onclick='hideModal()'>确定</a>");
+			showModal();
+			return;
+		}
+		if(""==location)
+		{
+			$("#tagcont").html("地址不能为空");
+			$("#tagop").html("<a id='surebtn' href='javascript:;' onclick='hideModal()'>确定</a>");
+			showModal();
+			return;
+		}
+		if(""==stock)
+		{
+			$("#tagcont").html("库存不能为空");
+			$("#tagop").html("<a id='surebtn' href='javascript:;' onclick='hideModal()'>确定</a>");
+			showModal();
+			return;
+		}
+		if(""==norms)
+		{
+			$("#tagcont").html("规格不能为空");
+			$("#tagop").html("<a id='surebtn' href='javascript:;' onclick='hideModal()'>确定</a>");
+			showModal();
+			return;
+		}
+		if(""==details)
+		{
+			$("#tagcont").html("土地详情不能为空");
+			$("#tagop").html("<a id='surebtn' href='javascript:;' onclick='hideModal()'>确定</a>");
+			showModal();
+			return;
+		}
+		/* if(""==img)
+		{
+			$("#tagcont").html("请上传类目图标");
+			$("#tagop").html("<a id='surebtn' href='javascript:;' onclick='hideModal()'>确定</a>");
+			showModal();
+			return;
+		} */
+		$.ajax({
+			url : getRootPath()+"/manage/lands/editLands",
+			type : "post",
+			dataType : "json",
+			contentType: "application/x-www-form-urlencoded; charset=utf-8",
+			 data:{"uid":uid,"title":title,"channel_uid":channel_uid,"intro":intro,"img":img,"price":price,"location":location,"stock":stock,"norms":norms,"recommendhome":recommendhome,"details":details,"remark":remark,"state":state},
+			 success : function(data) {
+				console.log(data);
+				if(data.status==0)
+				{
+					$("#tagcont").html("插入数据失败，请检查网络");
+					$("#tagop").html("<a id='surebtn' href='javascript:;' onclick='hideModal()'>确定</a>");
+					showModal();
+				}else if(data.status==1)
+				{
+					$("#tagcont").html("插入数据成功");
+					$("#tagop").html("<a id='surebtn' href='javascript:;' onclick='hideModal()'>确定</a>");
+					showModal();
+					window.location.href = "lands_list.html";
+				}
+			 }
+		});
+	});
+</script>
+
+</body>
+
+</html>

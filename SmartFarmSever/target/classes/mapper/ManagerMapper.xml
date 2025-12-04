@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ManagerMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.example.entity.Manager">
+        <id column="uid" property="uid" jdbcType="VARCHAR"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="passw" property="passw" jdbcType="VARCHAR"/>
+        <result column="purviews" property="purviews" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="createdtime" property="createdtime" jdbcType="TIMESTAMP"/>
+        <result column="updatedtime" property="updatedtime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 基础字段 -->
+    <sql id="Base_Column_List">
+        uid, username, passw, purviews, remark, state, createdtime, updatedtime
+    </sql>
+
+    <!-- 插入管理员 -->
+    <insert id="insert" parameterType="com.example.entity.Manager">
+        INSERT INTO managers (
+            uid, username, passw, purviews, remark, state, createdtime, updatedtime
+        ) VALUES (
+            #{uid}, #{username}, #{passw}, #{purviews}, #{remark}, #{state}, #{createdtime}, #{updatedtime}
+        )
+    </insert>
+
+    <!-- 根据ID删除管理员（逻辑删除） -->
+<!--    <update id="deleteById" parameterType="string">-->
+<!--        UPDATE managers -->
+<!--        SET state = -1, updatedtime = NOW()-->
+<!--        WHERE uid = #{uid}-->
+<!--    </update>-->
+<!--    直接删除   -->
+    <delete id="deleteById" parameterType="string">
+        delete from
+                   managers
+        <where>
+            <if test="uid != ''">
+                uid = #{uid}
+            </if>
+        </where>
+    </delete>
+
+    <!-- 更新管理员信息 -->
+    <update id="update" parameterType="com.example.entity.Manager">
+        UPDATE managers
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="passw != null and passw != ''">
+                passw = #{passw},
+            </if>
+            <if test="purviews != null and purviews != ''">
+                purviews = #{purviews},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+            updatedtime = NOW()
+        </set>
+        WHERE uid = #{uid}
+    </update>
+
+    <!-- 根据ID查询管理员 -->
+    <select id="selectById" parameterType="string" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM managers
+        WHERE uid = #{uid} AND state != -1
+    </select>
+
+
+    <!-- 查询所有管理员 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM managers
+        WHERE state != -1
+        ORDER BY createdtime DESC
+    </select>
+
+    <!-- 根据用户名查询管理员 -->
+    <select id="selectByUsername" parameterType="string" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM managers
+        WHERE username = #{username} AND state != -1
+    </select>
+
+    <!-- 根据状态查询管理员列表 -->
+    <select id="selectByState" parameterType="int" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM managers
+        WHERE state = #{state}
+        ORDER BY createdtime DESC
+    </select>
+
+</mapper>

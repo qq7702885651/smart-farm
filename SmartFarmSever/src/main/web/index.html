@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <title>登录页面</title>
+</head>
+<body>
+    <h2>用户登录</h2>
+    <form id="loginForm">
+        <div>
+            <label>用户名：</label>
+            <input type="text" id="username" name="username" required />
+        </div>
+        <br />
+        <div>
+            <label>密码：</label>
+            <input type="password" id="password" name="password" required />
+        </div>
+        <br />
+        <button type="submit">登录</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // 阻止表单默认提交
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // 发送登录请求
+            fetch('http://localhost:8080/api/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'  // 告诉后端我们发送的是 JSON
+                },
+                body: JSON.stringify({
+                    username: username,
+                    passw: password  // 注意：后端接收的是 "passw"，不是 "password"
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络错误，状态码：' + response.status);
+                }
+                return response.json(); // 解析 JSON 响应
+            })
+            .then(data => {
+                const resultDiv = document.getElementById('result');
+                if (data.code === 100) {
+                    resultDiv.innerHTML = `<p style="color: green;">登录成功！欢迎：${data.data.username}</p>`;
+                    // 可以跳转页面，例如：
+                    // window.location.href = "/dashboard";
+                } else {
+                    resultDiv.innerHTML = `<p style="color: red;">${data.message}</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('请求失败:', error);
+                document.getElementById('result').innerHTML = `<p style="color: red;">请求失败：${error.message}</p>`;
+            });
+        });
+    </script>
+</body>
+</html>
