@@ -110,6 +110,7 @@
             createdtime,
             updatedtime
         FROM lands
+        where state = 1
         ORDER BY createdtime DESC
     </select>
 
@@ -132,6 +133,7 @@
             createdtime,
             updatedtime
         FROM lands
+        where state = 1
         ORDER BY createdtime DESC
         LIMIT #{offset}, #{pageSize}
     </select>

@@ -9,11 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="springboot-homework1" />
         <module name="springboot-homework2" />
+        <module name="SmartFarmSever" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SmartFarmSever" options="-parameters -Xlint:-options" />
       <module name="springboot-homework1" options="-parameters -Xlint:-options" />
       <module name="springboot-homework2" options="-parameters -Xlint:-options" />
     </option>
