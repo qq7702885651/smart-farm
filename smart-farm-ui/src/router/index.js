@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const Lands = () => import('@/views/lands/Lands.vue')
+const LaseTerm = () => import('@/views/LeaseTerm/LeaseTerm.vue')
 
 const routes = [
   {
@@ -9,6 +10,11 @@ const routes = [
     name: 'Lands',        // ✅ name 必须是字符串
     component: Lands      // ✅ 拼写正确 + 是有效的组件加载函数
   },
+    {
+        path: '/laseTerm',
+        name: 'LeaseTerm',
+        component: LaseTerm
+    },
   // 404 页面
   {
     path: '/:pathMatch(.*)*',
